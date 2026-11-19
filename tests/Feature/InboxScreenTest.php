@@ -18,6 +18,17 @@ final class InboxScreenTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // These tests assert the props and the status code, not the asset
+        // pipeline. Without this they need a built manifest to exist, which
+        // makes them fail on any machine that has not run `npm run build` -
+        // including CI, where the frontend is verified by its own job.
+        $this->withoutVite();
+    }
+
     #[Test]
     public function the_inbox_renders_with_agents_and_conversations(): void
     {
